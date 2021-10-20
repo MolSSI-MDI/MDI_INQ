@@ -1,13 +1,22 @@
-code_name: 'UNKNOWN'
+code_name: 'INQ'
 docker:
-  image_name: 'mdiengine'
+  image_name: 'mdi/inq'
 
   build_image:
-    - echo "Insert commands to build the environment for the engine here"
-    - echo "This will often include using apt-get or pip to install dependencies"
+    - apt-get update
+    - apt-get install -y libblas-dev liblapack-dev libfftw3-dev git cmake pkg-config libboost-all-dev
 
   build_engine:
-    - echo "Insert commands to build your engine code here"
+    # Obtain a clone of INQ
+    - |
+      if [ ! -d "build/inq" ]; then
+        git clone --recurse-submodules https://gitlab.com/npneq/inq.git build/inq
+      fi
+    - cd build/inq
+    - mkdir -p build
+    - cd build
+    - ../configure
+    - make
 
   validate_engine:
     - echo "Insert code that will confirm that your code has been built successfully"
