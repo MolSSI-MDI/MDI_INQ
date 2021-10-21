@@ -15,12 +15,22 @@ docker:
     - cd build/inq
     - mkdir -p build
     - cd build
-    - ../configure
+    - ../configure --prefix=/repo/build/install
     - make
+    - make install
 
   validate_engine:
+    - cd build/inq/build
+    - tests/h2o_ground_state
     - echo "Insert code that will confirm that your code has been built successfully"
-    - exit 1
+
+    #- cd ../../../
+    #- cd tests/validate_engine
+    #- mkdir -p build
+    #- cd build
+    #- cmake ..
+    #- make
+
 
 engine_tests:
   # Provide at least one example input that can be used to test your code's MDI functionality
