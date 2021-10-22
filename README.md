@@ -36,6 +36,49 @@ The following table indicates which MDI Standard commands are supported by this 
 Supported commands are indicated in green, while unsupported commands are indicated in gray.
 
 [travis]: <> ( supported_commands )
+## Supported Commands
+
+| | @DEFAULT |
+| ------------- | ------------- |
+| &lt;@ | ![command](report/badges/box-lightgray.svg) |
+| &lt;CELL | ![command](report/badges/box-lightgray.svg) |
+| &lt;CELL_DISPL | ![command](report/badges/box-lightgray.svg) |
+| &lt;CHARGES | ![command](report/badges/box-lightgray.svg) |
+| &lt;COORDS | ![command](report/badges/box-lightgray.svg) |
+| &lt;DIMENSIONS | ![command](report/badges/box-lightgray.svg) |
+| &lt;ELEC_MULT | ![command](report/badges/box-lightgray.svg) |
+| &lt;ELEMENTS | ![command](report/badges/box-lightgray.svg) |
+| &lt;ENERGY | ![command](report/badges/box-lightgray.svg) |
+| &lt;FORCES | ![command](report/badges/box-lightgray.svg) |
+| &lt;KE | ![command](report/badges/box-lightgray.svg) |
+| &lt;KE_ELEC | ![command](report/badges/box-lightgray.svg) |
+| &lt;KE_NUC | ![command](report/badges/box-lightgray.svg) |
+| &lt;MASSES | ![command](report/badges/box-lightgray.svg) |
+| &lt;NAME | ![command](report/badges/box-brightgreen.svg) |
+| &lt;NATOMS | ![command](report/badges/box-lightgray.svg) |
+| &lt;PE | ![command](report/badges/box-lightgray.svg) |
+| &lt;PE_ELEC | ![command](report/badges/box-lightgray.svg) |
+| &lt;PE_NUC | ![command](report/badges/box-lightgray.svg) |
+| &lt;STRESS | ![command](report/badges/box-lightgray.svg) |
+| &lt;TOTCHARGE | ![command](report/badges/box-lightgray.svg) |
+| &lt;VELOCITIES | ![command](report/badges/box-lightgray.svg) |
+| &gt;+FORCES | ![command](report/badges/box-lightgray.svg) |
+| &gt;CELL | ![command](report/badges/box-lightgray.svg) |
+| &gt;CELL_DISPL | ![command](report/badges/box-lightgray.svg) |
+| &gt;CHARGES | ![command](report/badges/box-lightgray.svg) |
+| &gt;COORDS | ![command](report/badges/box-lightgray.svg) |
+| &gt;ELEC_MULT | ![command](report/badges/box-lightgray.svg) |
+| &gt;ENERGY | ![command](report/badges/box-lightgray.svg) |
+| &gt;FORCES | ![command](report/badges/box-lightgray.svg) |
+| &gt;MASSES | ![command](report/badges/box-lightgray.svg) |
+| &gt;STRESS | ![command](report/badges/box-lightgray.svg) |
+| &gt;TOTCHARGE | ![command](report/badges/box-lightgray.svg) |
+| &gt;VELOCITIES | ![command](report/badges/box-lightgray.svg) |
+| @ | ![command](report/badges/box-lightgray.svg) |
+| @INIT_MC | ![command](report/badges/box-lightgray.svg) |
+| @INIT_MD | ![command](report/badges/box-lightgray.svg) |
+| @INIT_OPTG | ![command](report/badges/box-lightgray.svg) |
+| EXIT | ![command](report/badges/box-lightgray.svg) |
 
 ## Acknowledgements
 

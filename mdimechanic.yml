@@ -10,30 +10,22 @@ docker:
     # Obtain a clone of INQ
     - |
       if [ ! -d "build/inq" ]; then
-        git clone --recurse-submodules https://gitlab.com/npneq/inq.git build/inq
+        git clone --branch mdi --recurse-submodules https://gitlab.com/taylor-a-barnes/inq.git build/inq
       fi
     - cd build/inq
     - mkdir -p build
     - cd build
-    - ../configure --prefix=/repo/build/install
+    #- ../configure --prefix=/repo/build/install
     - make
     - make install
 
   validate_engine:
-    - cd build/inq/build
-    - tests/h2o_ground_state
-    - echo "Insert code that will confirm that your code has been built successfully"
-
-    #- cd ../../../
-    #- cd tests/validate_engine
-    #- mkdir -p build
-    #- cd build
-    #- cmake ..
-    #- make
+    - cd build/inq/build/tests
+    - ./h2o_ground_state
 
 
 engine_tests:
   # Provide at least one example input that can be used to test your code's MDI functionality
   script:
-    - echo "Insert commands to run an example calculation here"
-    - exit 1
+    - cd build/inq/build/examples
+    - ./inq_mdi -mdi "${MDI_OPTIONS}"
