@@ -15,7 +15,11 @@ docker:
     - cd build/inq
     - mkdir -p build
     - cd build
-    #- ../configure --prefix=/repo/build/install
+    # Only configure once, because it is a long process
+    - |
+      if [ ! -d "build/install" ]; then
+        ../configure --prefix=/repo/build/install
+      fi
     - make
     - make install
 
