@@ -17,7 +17,7 @@ docker:
     - cd build
     # Only configure once, because it is a long process
     - |
-      if [ ! -d "build/install" ]; then
+      if [ ! -d "../../install" ]; then
         ../configure --prefix=/repo/build/install
       fi
     - make
