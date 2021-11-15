@@ -45,9 +45,9 @@ Supported commands are indicated in green, while unsupported commands are indica
 | &lt;CELL_DISPL | ![command](report/badges/box-brightgreen.svg) |
 | &lt;CHARGES | ![command](report/badges/box-lightgray.svg) |
 | &lt;COORDS | ![command](report/badges/box-brightgreen.svg) |
-| &lt;DIMENSIONS | ![command](report/badges/box-lightgray.svg) |
+| &lt;DIMENSIONS | ![command](report/badges/box-brightgreen.svg) |
 | &lt;ELEC_MULT | ![command](report/badges/box-lightgray.svg) |
-| &lt;ELEMENTS | ![command](report/badges/box-lightgray.svg) |
+| &lt;ELEMENTS | ![command](report/badges/box-brightgreen.svg) |
 | &lt;ENERGY | ![command](report/badges/box-brightgreen.svg) |
 | &lt;FORCES | ![command](report/badges/box-brightgreen.svg) |
 | &lt;KE | ![command](report/badges/box-brightgreen.svg) |
