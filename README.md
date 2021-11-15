@@ -41,10 +41,10 @@ Supported commands are indicated in green, while unsupported commands are indica
 | | @DEFAULT |
 | ------------- | ------------- |
 | &lt;@ | ![command](report/badges/box-lightgray.svg) |
-| &lt;CELL | ![command](report/badges/box-lightgray.svg) |
-| &lt;CELL_DISPL | ![command](report/badges/box-lightgray.svg) |
+| &lt;CELL | ![command](report/badges/box-brightgreen.svg) |
+| &lt;CELL_DISPL | ![command](report/badges/box-brightgreen.svg) |
 | &lt;CHARGES | ![command](report/badges/box-lightgray.svg) |
-| &lt;COORDS | ![command](report/badges/box-lightgray.svg) |
+| &lt;COORDS | ![command](report/badges/box-brightgreen.svg) |
 | &lt;DIMENSIONS | ![command](report/badges/box-lightgray.svg) |
 | &lt;ELEC_MULT | ![command](report/badges/box-lightgray.svg) |
 | &lt;ELEMENTS | ![command](report/badges/box-lightgray.svg) |
@@ -63,7 +63,7 @@ Supported commands are indicated in green, while unsupported commands are indica
 | &lt;TOTCHARGE | ![command](report/badges/box-lightgray.svg) |
 | &lt;VELOCITIES | ![command](report/badges/box-lightgray.svg) |
 | &gt;+FORCES | ![command](report/badges/box-lightgray.svg) |
-| &gt;CELL | ![command](report/badges/box-lightgray.svg) |
+| &gt;CELL | ![command](report/badges/box-brightgreen.svg) |
 | &gt;CELL_DISPL | ![command](report/badges/box-lightgray.svg) |
 | &gt;CHARGES | ![command](report/badges/box-lightgray.svg) |
 | &gt;COORDS | ![command](report/badges/box-lightgray.svg) |
