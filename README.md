@@ -53,7 +53,7 @@ Supported commands are indicated in green, while unsupported commands are indica
 | &lt;KE | ![command](report/badges/box-brightgreen.svg) |
 | &lt;KE_ELEC | ![command](report/badges/box-lightgray.svg) |
 | &lt;KE_NUC | ![command](report/badges/box-lightgray.svg) |
-| &lt;MASSES | ![command](report/badges/box-lightgray.svg) |
+| &lt;MASSES | ![command](report/badges/box-brightgreen.svg) |
 | &lt;NAME | ![command](report/badges/box-brightgreen.svg) |
 | &lt;NATOMS | ![command](report/badges/box-brightgreen.svg) |
 | &lt;PE | ![command](report/badges/box-brightgreen.svg) |
@@ -66,7 +66,7 @@ Supported commands are indicated in green, while unsupported commands are indica
 | &gt;CELL | ![command](report/badges/box-brightgreen.svg) |
 | &gt;CELL_DISPL | ![command](report/badges/box-lightgray.svg) |
 | &gt;CHARGES | ![command](report/badges/box-lightgray.svg) |
-| &gt;COORDS | ![command](report/badges/box-lightgray.svg) |
+| &gt;COORDS | ![command](report/badges/box-brightgreen.svg) |
 | &gt;ELEC_MULT | ![command](report/badges/box-lightgray.svg) |
 | &gt;ENERGY | ![command](report/badges/box-lightgray.svg) |
 | &gt;FORCES | ![command](report/badges/box-lightgray.svg) |
