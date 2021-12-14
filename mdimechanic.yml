@@ -33,3 +33,10 @@ engine_tests:
   script:
     - cd build/inq/build/examples
     - ./inq_mdi -mdi "${MDI_OPTIONS}"
+
+
+test_drivers:
+  test_driver:
+    script:
+      - cd tests/driver
+      - python driver.py -mdi "-role DRIVER -name driver -method TCP -port 8021"
