@@ -5,6 +5,8 @@ docker:
   build_image:
     - apt-get update
     - apt-get install -y libblas-dev liblapack-dev libfftw3-dev git cmake pkg-config libboost-all-dev
+    - pip install pymdi
+    - pip install mpi4py
 
   build_engine:
     # Obtain a clone of INQ
@@ -34,9 +36,16 @@ engine_tests:
     - cd build/inq/build/examples
     - ./inq_mdi -mdi "${MDI_OPTIONS}"
 
+    #- cd tests/driver
+    #- python plugin_driver.py -mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/inq/build/examples"
+
 
 test_drivers:
   test_driver:
     script:
       - cd tests/driver
       - python driver.py -mdi "-role DRIVER -name driver -method TCP -port 8021"
+
+  plugin_driver:
+    script:
+      - sleep 30
