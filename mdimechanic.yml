@@ -29,6 +29,13 @@ docker:
     - cd build/inq/build/tests
     - ./h2o_ground_state
 
+run_scripts:
+  test:
+    containers:
+      container1:
+        script:
+          - cd build/inq/build/tests
+          - ./h2o_ground_state
 
 engine_tests:
   # Provide at least one example input that can be used to test your code's MDI functionality
