@@ -3,8 +3,26 @@ docker:
   image_name: 'mdi/inq'
 
   build_image:
+    # Install apt-get packages
     - apt-get update
-    - apt-get install -y libblas-dev liblapack-dev libfftw3-dev git cmake pkg-config libboost-all-dev
+    - apt-get install -y wget libblas-dev liblapack-dev libfftw3-dev git cmake pkg-config
+    - apt-get clean
+    - apt-get purge
+    - rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
+
+    # Custom compile Boost
+    # Installing boost via apt-get will also install OpenMPI, but we want to use MPICH
+    - wget -O boost_1_78_0.tar.gz https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.gz
+    - tar -xvf boost_1_78_0.tar.gz
+    - cd boost_1_78_0
+    - ./bootstrap.sh
+    - echo "using mpi ;" >> project-config.jam
+    - ./b2 install
+    - cd ..
+    - rm boost_1_78_0.tar.gz
+    - rm -rf boost_1_78_0
+
+    # Install pip packages
     - pip install pymdi
     - pip install mpi4py
 
@@ -17,12 +35,13 @@ docker:
     - cd build/inq
     - mkdir -p build
     - cd build
+
     # Only configure once, because it is a long process
     - |
-      if [ ! -d "../../install" ]; then
+      if [ ! -d "/repo/build/install" ]; then
         ../configure --prefix=/repo/build/install
       fi
-    - make
+    - make -j 4
     - make install
 
   validate_engine:
@@ -33,9 +52,28 @@ run_scripts:
   test:
     containers:
       container1:
+        image: 'mdi/inq'
         script:
           - cd build/inq/build/tests
           - ./h2o_ground_state
+
+  plugin:
+    containers:
+      container1:
+        image: 'mdi/inq'
+        script:
+          - cd tests/driver
+          - python plugin_driver.py -mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/inq/build/examples"
+
+  plugin_driver:
+    containers:
+      container1:
+        image: 'mdi/inq'
+        script:
+          - echo "Words"
+          - cd build/inq/build/examples
+          - mpiexec -n 2 echo "Words"
+          - mpiexec -n 2 ./inq_mdi_driver -mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/inq/build/examples" -driver_nranks 0 -plugin_nranks 1 -plugin_name inqmdi
 
 engine_tests:
   # Provide at least one example input that can be used to test your code's MDI functionality
