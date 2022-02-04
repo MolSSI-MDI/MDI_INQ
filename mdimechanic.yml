@@ -70,9 +70,7 @@ run_scripts:
       container1:
         image: 'mdi/inq'
         script:
-          - echo "Words"
           - cd build/inq/build/examples
-          - mpiexec -n 2 echo "Words"
           - mpiexec -n 2 ./inq_mdi_driver -mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/inq/build/examples" -driver_nranks 0 -plugin_nranks 1 -plugin_name inqmdi
 
 engine_tests:
