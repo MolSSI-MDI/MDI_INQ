@@ -11,9 +11,36 @@ def code_for_plugin_instance(mpi_comm, mdi_comm, class_object):
     name = mdi.MDI_Recv(mdi.MDI_NAME_LENGTH, mdi.MDI_CHAR, mdi_comm)
     print("Engine name: " + str(name))
 
+    cell = [
+        12.0, 0.0, 0.0,
+        0.0, 12.0, 0.0,
+        0.0, 0.0, 12.0 ]
+
+    elements = [ 8, 1, 1 ]    
+
+    coords = [
+        0.0, -0.553586, 0.0,
+        1.429937, 0.553586, 0.0,
+        -1.429937, 0.553586, 0.0
+        ]
+
+    natoms = len( elements )
+
+    mdi.MDI_Send_Command(">CELL", mdi_comm)
+    mdi.MDI_Send(cell, 9, mdi.MDI_DOUBLE, mdi_comm)
+
     mdi.MDI_Send_Command("<CELL", mdi_comm)
     cell = mdi.MDI_Recv(9, mdi.MDI_DOUBLE, mdi_comm)
     print("Cell: " + str(cell))
+
+    mdi.MDI_Send_Command(">NATOMS", mdi_comm)
+    mdi.MDI_Send(natoms, 1, mdi.MDI_INT, mdi_comm)
+
+    mdi.MDI_Send_Command(">ELEMENTS", mdi_comm)
+    mdi.MDI_Send(elements, natoms, mdi.MDI_INT, mdi_comm)
+
+    mdi.MDI_Send_Command(">COORDS", mdi_comm)
+    mdi.MDI_Send(coords, 3*natoms, mdi.MDI_DOUBLE, mdi_comm)
 
     mdi.MDI_Send_Command("<ENERGY", mdi_comm)
     energy = mdi.MDI_Recv(1, mdi.MDI_DOUBLE, mdi_comm)
@@ -49,6 +76,23 @@ mdi.MDI_Launch_plugin(plugin_name,
                       mpi_world,
                       code_for_plugin_instance,
                       None)
+
+
+
+print("------------- AFTER FIRST CALL ---------------------")
+
+
+mdi.MDI_Launch_plugin(plugin_name,
+                      "-mdi \"-name MM -role ENGINE -method LINK\"",
+                      mpi_world,
+                      code_for_plugin_instance,
+                      None)
+
+
+
+
+
+
 
 # Get the name of the engine, which will be checked and verified at the end
 #mdi.MDI_Send_Command("<NAME", comm)
