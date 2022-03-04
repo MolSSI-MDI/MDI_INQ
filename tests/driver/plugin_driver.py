@@ -1,6 +1,6 @@
 import mdi
-from mdi import MDI_NAME_LENGTH, MDI_COMMAND_LENGTH
 import sys
+import argparse
 from mpi4py import MPI
 
 
@@ -14,21 +14,12 @@ def callback_wrapper(mpi_comm, mdi_comm, class_object):
 class PluginInstance:
 
 
-    def __init__(self):
+    def __init__(self, cell_in, elements_in, coords_in):
 
         # Set system information for this plugin run
-        # For some engines, this information will be sent via MDI
-        # For others, this information must be read in the engine's input file
-        self.cell = [
-            12.0, 0.0, 0.0,
-            0.0, 12.0, 0.0,
-            0.0, 0.0, 12.0 ]
-        self.elements = [ 8, 1, 1 ]    
-        self.coords = [
-            0.0, -0.553586, 0.0,
-            1.429937, 0.553586, 0.0,
-            -1.429937, 0.553586, 0.0
-            ]
+        self.cell = cell_in
+        self.elements = elements_in  
+        self.coords = coords_in
         self.natoms = len( self.elements )
 
 
@@ -45,66 +36,114 @@ class PluginInstance:
     # This function is called by the MDI Library, not by this Driver
     # It contains the commands that should be sent to the engine
     def callback(self, mpi_comm, mdi_comm):
+    
+        my_rank = mpi_comm.Get_rank()
 
         mdi.MDI_Send_Command("<NAME", mdi_comm)
         name = mdi.MDI_Recv(mdi.MDI_NAME_LENGTH, mdi.MDI_CHAR, mdi_comm)
-        print("Engine name: " + str(name))
+        if my_rank == 0:
+            print("Engine name: " + str(name))
 
+        # Send the cell dimensions to the plugin
         mdi.MDI_Send_Command(">CELL", mdi_comm)
         mdi.MDI_Send(self.cell, 9, mdi.MDI_DOUBLE, mdi_comm)
 
-        mdi.MDI_Send_Command("<CELL", mdi_comm)
-        self.cell = mdi.MDI_Recv(9, mdi.MDI_DOUBLE, mdi_comm)
-        print("Cell: " + str(self.cell))
-
+        # Send the number of atoms to the plugin
         mdi.MDI_Send_Command(">NATOMS", mdi_comm)
         mdi.MDI_Send(self.natoms, 1, mdi.MDI_INT, mdi_comm)
 
+        # Send the number of elements to the plugin
         mdi.MDI_Send_Command(">ELEMENTS", mdi_comm)
         mdi.MDI_Send(self.elements, self.natoms, mdi.MDI_INT, mdi_comm)
 
+        # Send the nuclear coordinates to the plugin
         mdi.MDI_Send_Command(">COORDS", mdi_comm)
         mdi.MDI_Send(self.coords, 3*self.natoms, mdi.MDI_DOUBLE, mdi_comm)
 
+        # Receive the energy of the system from the plugin
         mdi.MDI_Send_Command("<ENERGY", mdi_comm)
         energy = mdi.MDI_Recv(1, mdi.MDI_DOUBLE, mdi_comm)
-        print("ENERGY: " + str(energy))
+        if my_rank == 0:
+            print("ENERGY: " + str(energy))
         
+        # Receive the nuclear forces from the plugin
         mdi.MDI_Send_Command("<FORCES", mdi_comm)
         forces = mdi.MDI_Recv(3*self.natoms, mdi.MDI_DOUBLE, mdi_comm)
-        print("FORCES: " + str(forces))
+        if my_rank == 0:
+            print("FORCES: " + str(forces))
 
-        # Send the "EXIT" command to the engine
+        # Send the "EXIT" command to the plugin
         mdi.MDI_Send_Command("EXIT", mdi_comm)
 
         return 0
 
 
+# Parser for the input arguments
+def create_parser():
 
-iarg = 1
-while iarg < len(sys.argv):
-    arg = sys.argv[iarg]
+    # Handle arguments with argparse
+    parser = argparse.ArgumentParser(
+        add_help=False, formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    required = parser.add_argument_group("Required Arguments")
+    optional = parser.add_argument_group("Optional arguments")
 
-    if arg == "-mdi":
-        # Initialize MDI
-        if len(sys.argv) <= iarg+1:
-            raise Exception("Argument to -mdi option not found")
-        mdi.MDI_Init(sys.argv[iarg+1])
-        iarg += 1
-    else:
-        raise Exception("Unrecognized argument")
+    required.add_argument(
+        "--mdi",
+        help="Runtime options for the MDI Library.",
+        type=str,
+        required=True,
+    )
 
-    iarg += 1
+    required.add_argument(
+        "--plugin_name",
+        help="Name of the MDI plugin to use.",
+        type=str,
+        required=True,
+    )
+    
+    optional.add_argument(
+        "--plugin_command_line",
+        help="Command line arguments for the plugin to use.",
+        type=str,
+        default="",
+    )
+    
+    return parser
 
 
-plugin_name = "inqmdi"
-mpi_world = MPI.COMM_WORLD
-engine_command_line = ""
+
+# Parse the command-line arguments
+parser = create_parser()
+args = parser.parse_args()
+
+
+# Initialize the MDI Library
+mdi.MDI_Init( args.mdi )
+
+
+# We'll try a simple calculation on a water molecule
+cell = [
+    12.0, 0.0, 0.0,
+    0.0, 12.0, 0.0,
+    0.0, 0.0, 12.0 ]
+elements = [ 8, 1, 1 ]    
+coords = [
+    0.0, -0.553586, 0.0,
+    1.429937, 0.553586, 0.0,
+    -1.429937, 0.553586, 0.0
+    ]
 
 
 for i in range(2):
-    plugin = PluginInstance()
-    plugin.launch(plugin_name, engine_command_line, mpi_world)
+    plugin_mpi_comm = MPI.COMM_WORLD
+    plugin = PluginInstance(cell, elements, coords)
+    plugin.launch(args.plugin_name,
+                  args.plugin_command_line,
+                  plugin_mpi_comm)
+
+    # Displace the oxygen in the +y direction
+    coords[1] += 0.1
 
 
 

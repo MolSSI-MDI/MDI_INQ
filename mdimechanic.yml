@@ -63,7 +63,7 @@ run_scripts:
         image: 'mdi/inq'
         script:
           - cd tests/driver
-          - python plugin_driver.py -mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/inq/build/examples"
+          - mpiexec -n 1 python plugin_driver.py --plugin_name "inqmdi" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/inq/build/examples"
 
   plugin_driver:
     containers:
