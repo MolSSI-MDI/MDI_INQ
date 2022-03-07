@@ -48,13 +48,39 @@ class PluginInstance:
         mdi.MDI_Send_Command(">CELL", mdi_comm)
         mdi.MDI_Send(self.cell, 9, mdi.MDI_DOUBLE, mdi_comm)
 
-        # Send the number of atoms to the plugin
-        mdi.MDI_Send_Command(">NATOMS", mdi_comm)
-        mdi.MDI_Send(self.natoms, 1, mdi.MDI_INT, mdi_comm)
+        # Find out if the plugin supports the >NATOMS command
+        natoms_supported = 0
+        natoms_supported = mdi.MDI_Check_command_exists("@DEFAULT", ">NATOMS", mdi_comm)
+        natoms_supported = mpi_comm.bcast(natoms_supported, root=0)
 
-        # Send the number of elements to the plugin
-        mdi.MDI_Send_Command(">ELEMENTS", mdi_comm)
-        mdi.MDI_Send(self.elements, self.natoms, mdi.MDI_INT, mdi_comm)
+        if natoms_supported:
+
+            # Send the number of atoms to the plugin
+            mdi.MDI_Send_Command(">NATOMS", mdi_comm)
+            mdi.MDI_Send(self.natoms, 1, mdi.MDI_INT, mdi_comm)
+
+        else:
+
+            # We will assume the plugin has read the correct number
+            #    of atoms from an input file.
+            pass
+
+        # Find out if the plugin supports the >ELEMENTS command
+        elem_supported = 0
+        elem_supported = mdi.MDI_Check_command_exists("@DEFAULT", ">ELEMENTS", mdi_comm)
+        elem_supported = mpi_comm.bcast(elem_supported, root=0)
+
+        if elem_supported:
+
+            # Send the number of elements to the plugin
+            mdi.MDI_Send_Command(">ELEMENTS", mdi_comm)
+            mdi.MDI_Send(self.elements, self.natoms, mdi.MDI_INT, mdi_comm)
+
+        else:
+
+            # We will assume the plugin has read the correct element
+            #    of each atom from an input file.
+            pass
 
         # Send the nuclear coordinates to the plugin
         mdi.MDI_Send_Command(">COORDS", mdi_comm)
