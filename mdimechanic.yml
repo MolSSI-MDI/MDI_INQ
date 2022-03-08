@@ -65,6 +65,14 @@ run_scripts:
           - cd tests/driver
           - mpiexec -n 1 python plugin_driver.py --plugin_name "inqmdi" --mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/inq/build/examples"
 
+  nitrogen:
+    containers:
+      container1:
+        image: 'mdi/inq'
+        script:
+          - cd build/inq/build/examples
+          - ./nitrogen_paper
+
   plugin_driver:
     containers:
       container1:
