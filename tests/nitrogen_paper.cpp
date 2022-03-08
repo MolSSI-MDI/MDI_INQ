@@ -51,5 +51,8 @@ int main(int argc, char ** argv){
 
 	std::cout << "N2 energy = " << result.energy.total() << std::endl;
 
+        // Finalize MPI
+        boost::mpi3::environment::named_attributes_key_f().reset();
+	MPI_Finalize();
 }
 
