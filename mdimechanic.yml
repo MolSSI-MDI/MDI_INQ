@@ -79,7 +79,7 @@ run_scripts:
         image: 'mdi/inq'
         script:
           - cd build/inq/build/examples
-          - mpiexec -n 2 ./inq_mdi_driver -mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/inq/build/examples" -driver_nranks 0 -plugin_nranks 1 -plugin_name inqmdi
+          - mpiexec -n 2 ./inq_mdi_driver -mdi "-role DRIVER -name driver -method LINK -plugin_path /repo/build/inq/build/examples" -driver_nranks 0 -plugin_nranks 2 -plugin_name inqmdi
 
 engine_tests:
   # Provide at least one example input that can be used to test your code's MDI functionality
